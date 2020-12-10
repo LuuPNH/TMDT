@@ -6,11 +6,13 @@
 
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="4dp"
+        android:layout_margin="5dp"
         app:cardBackgroundColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:orientation="horizontal"
+
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

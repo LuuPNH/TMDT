@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             AcTionViewFlipper();
             GetDuLieuLoaiSP();
             GetDuLieuSanPhamMoiNhat();
+
             CatchOnItemListView();
         } else {
             CheckConnection.ShowToast_Short(getApplicationContext(), "Bạn hãy kiểm tra lại kết nối Internet của bạn");
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetDuLieuSanPhamMoiNhat() {
+
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Sever.urlSP, new Response.Listener<JSONArray>() {
             @Override
@@ -233,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         viewFlipperHome = findViewById(R.id.viewFlipperHome);
         recyclerViewHome = (RecyclerView) findViewById(R.id.recyclerviewHome);
         navigationViewHome = findViewById(R.id.navigationHome);
-        listViewHome = findViewById(R.id.listviewHome);
+        listViewHome = findViewById(R.id.listViewHome);
         drawerLayoutHome = findViewById(R.id.drawerHome);
         mangLoaiSP = new ArrayList<>();
         mangLoaiSP.add(0 , new Loaisp(0,"Trang chính","https://cdn4.iconfinder.com/data/icons/basic-ui-2-line/32/house-home-main-menu-start-building-256.png"));

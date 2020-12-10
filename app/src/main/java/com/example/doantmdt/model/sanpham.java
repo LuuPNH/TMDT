@@ -1,6 +1,8 @@
 package com.example.doantmdt.model;
 
-public class sanpham {
+import java.io.Serializable;
+
+public class sanpham implements Serializable {
     public int id;
     public String ten;
     public int gia;
