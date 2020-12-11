@@ -1,12 +1,18 @@
 package com.example.doantmdt.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -39,7 +45,8 @@ public class XiaomiActivity extends AppCompatActivity {
     int idIP = 0;
     int page = 1;
     View footerView;
-
+    boolean isLoading,litmitData = false;
+    XiaomiActivity.mHandler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +56,38 @@ public class XiaomiActivity extends AppCompatActivity {
             GetIDLoaiSP();
             ActionToolBar();
             GetData(page);
+            LoadMoreData();
         } else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra lại kết nối!");
             finish();
         }
 
+    }
+
+    private void LoadMoreData() {
+        listViewIP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),ChiTietSPActitivity.class);
+                intent.putExtra("thongtinsanpham",mangIP.get(position));
+                startActivity(intent);
+            }
+        });
+        listViewIP.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0 && isLoading == false && litmitData == false){
+                    isLoading = true;
+                    ThreadData threadData = new ThreadData();
+                    threadData.start();
+                }
+            }
+        });
     }
 
     private void GetData(int Page) {
@@ -76,7 +110,8 @@ public class XiaomiActivity extends AppCompatActivity {
                 String CPU = "";
                 Integer RAM = 0;
                 Integer Pin = 0;
-                if(response != null){
+                if(response != null && response.length() != 2){
+                    listViewIP.removeFooterView(footerView);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for(int i = 0;i<jsonArray.length();i++){
@@ -102,6 +137,10 @@ public class XiaomiActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    litmitData = true;
+                    listViewIP.removeFooterView(footerView);
+                    CheckConnection.ShowToast_Short(getApplicationContext(), "Đã hết sản phẩm");
                 }
             }
         }, new Response.ErrorListener() {
@@ -144,5 +183,35 @@ public class XiaomiActivity extends AppCompatActivity {
         listViewIP.setAdapter(iphoneAdapter);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         footerView = inflater.inflate(R.layout.progressbar,null);
+        mHandler = new mHandler();
+    }
+    public class mHandler extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 0:
+                    listViewIP.addFooterView(footerView);
+                    break;
+                case 1:
+                    GetData(++page);
+                    isLoading = false;
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    }
+    public class ThreadData extends Thread{
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(0);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Message message = mHandler.obtainMessage(1);
+            mHandler.sendMessage(message);
+            super.run();
+        }
     }
 }

@@ -6,16 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.IphoneActivity">
+    tools:context=".activity.SamsungActivity">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarSS"
+        android:id="@+id/toolbarIphone"
         app:title="Điện thoại SamSung"
         app:titleTextColor="#FFFFFF"
         android:background="#A1A1A1"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
     <ListView
-        android:id="@+id/listViewSS"
+        android:id="@+id/listViewIphone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

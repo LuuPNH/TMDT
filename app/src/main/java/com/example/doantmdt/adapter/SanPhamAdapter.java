@@ -1,6 +1,7 @@
 package com.example.doantmdt.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doantmdt.R;
+import com.example.doantmdt.activity.ChiTietSPActitivity;
 import com.example.doantmdt.model.sanpham;
+import com.example.doantmdt.ultil.CheckConnection;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -61,7 +64,16 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ItemHold
             imghinhsp = itemView.findViewById(R.id.imgViewSP);
             txttensp = itemView.findViewById(R.id.textViewTenSP);
             txtgiasp = itemView.findViewById(R.id.textViewGiaSP);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ChiTietSPActitivity.class);
+                    intent.putExtra("thongtinsanpham",arraysp.get(getPosition()));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    CheckConnection.ShowToast_Short(context, arraysp.get(getPosition()).getTen());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

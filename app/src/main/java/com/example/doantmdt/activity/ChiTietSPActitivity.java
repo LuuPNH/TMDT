@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ChiTietSPActitivity extends AppCompatActivity {
     Toolbar toolbarChiTiet;
     ImageView imgViewChiTiet;
-    TextView txtTenChiTiet,txtGiaChiTiet,txtMoTaChiTiet;
+    TextView txtTenChiTiet,txtGiaChiTiet,txtMoTaChiTiet,txtView7,txtView8,txtView9,txtView10,txtView11,txtView12,txtView13,txtView14;
     Spinner spinnerChiTiet;
     Button btnThemGioHang;
     @Override
@@ -74,6 +74,16 @@ public class ChiTietSPActitivity extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         txtGiaChiTiet.setText("Giá: "+decimalFormat.format(GiaSP)+ "Đ");
         txtMoTaChiTiet.setText(MoTaSP);
+        //txtView7.setText(ManHinhSP);
+        //txtView8.setText(HDH);
+        //txtView9.setText(BoNho);
+        //txtView10.setText(CamTrc);
+        //txtView11.setText(CamSau);
+        //txtView12.setText(CPU);
+        //txtView13.setText(RAM);
+        //txtView14.setText(Pin);
+
+
         Picasso.get().load(HinhSP)
                 .placeholder(R.drawable.load)
                 .error(R.drawable.error)
@@ -99,7 +109,14 @@ public class ChiTietSPActitivity extends AppCompatActivity {
         txtMoTaChiTiet = findViewById(R.id.textMoTaChiTietSP);
         spinnerChiTiet = findViewById(R.id.spinerChiTietSP);
         btnThemGioHang = findViewById(R.id.btnThemGioHang);
-
+        //txtView7 = findViewById(R.id.textView7);
+        //txtView8 = findViewById(R.id.textView8);
+        //txtView9 = findViewById(R.id.textView9);
+        //txtView10 = findViewById(R.id.textView10);
+        //txtView11 = findViewById(R.id.textView11);
+        //txtView12 = findViewById(R.id.textView12);
+        //txtView13 = findViewById(R.id.textView13);
+        //txtView14 = findViewById(R.id.textView14);
 
     }
 }
