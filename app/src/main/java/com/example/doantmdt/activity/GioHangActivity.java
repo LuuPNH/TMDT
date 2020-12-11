@@ -1,10 +1,13 @@
 package com.example.doantmdt.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,7 +19,8 @@ import java.text.DecimalFormat;
 
 public class GioHangActivity extends AppCompatActivity {
     ListView listViewGioHang;
-    TextView txtViewGioHangRong,txtViewTongTien;
+    TextView txtViewGioHangRong;
+    static TextView txtViewTongTien;
     Button btnThanhToan,btnTiepTucMuaHang;
     Toolbar toolbarGioHang;
     GioHangAdapter gioHangAdapter;
@@ -28,9 +32,50 @@ public class GioHangActivity extends AppCompatActivity {
         ActionToolBar();
         CheckData();
         EventUltil();
+        CatchOnItemListView();
     }
 
-    private void EventUltil() {
+    private void CatchOnItemListView() {
+       listViewGioHang.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+           @Override
+           public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+               AlertDialog.Builder builder = new AlertDialog.Builder(GioHangActivity.this);
+               builder.setTitle("Xác nhận xóa sản phẩm");
+               builder.setMessage("Bạn có chắc muốn xóa sản phẩm này?");
+               builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                        if(MainActivity.mangGioHang.size()<=0){
+                            txtViewGioHangRong.setVisibility(View.VISIBLE);
+                        } else {
+                            MainActivity.mangGioHang.remove(position);
+                            gioHangAdapter.notifyDataSetChanged();
+                            EventUltil();
+                            if(MainActivity.mangGioHang.size()<=0){
+                                txtViewGioHangRong.setVisibility(View.VISIBLE);
+                            } else {
+                                txtViewGioHangRong.setVisibility(View.INVISIBLE);
+                                gioHangAdapter.notifyDataSetChanged();
+                                EventUltil();
+                            }
+                        }
+                   }
+               });
+               builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       gioHangAdapter.notifyDataSetChanged();
+                       EventUltil();
+
+                   }
+               });
+               builder.show();
+               return true;
+           }
+       });
+    }
+
+    public static void EventUltil() {
         long tongtien = 0;
         for(int i = 0; i<MainActivity.mangGioHang.size();i++){
             tongtien+= MainActivity.mangGioHang.get(i).getGia();
