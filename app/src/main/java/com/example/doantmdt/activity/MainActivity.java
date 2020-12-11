@@ -1,5 +1,6 @@
 package com.example.doantmdt.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -24,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.doantmdt.R;
 import com.example.doantmdt.adapter.LoaispAdapter;
 import com.example.doantmdt.adapter.SanPhamAdapter;
+import com.example.doantmdt.model.Giohang;
 import com.example.doantmdt.model.Loaisp;
 import com.example.doantmdt.model.sanpham;
 import com.example.doantmdt.ultil.CheckConnection;
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     String hinhAnhLoaiSP = "";
     ArrayList<sanpham> mangsanpham;
     SanPhamAdapter sanPhamAdapter;
+    public static ArrayList<Giohang> mangGioHang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_giohang,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menugiohang:
+                Intent intent = new Intent(getApplicationContext(),GioHangActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void AnhXa() {
+        //txtloi = findViewById(R.id.txtLoi);
+        toolbarHome = findViewById(R.id.toolbarHome);
+        viewFlipperHome = findViewById(R.id.viewFlipperHome);
+        recyclerViewHome = (RecyclerView) findViewById(R.id.recyclerviewHome);
+        navigationViewHome = findViewById(R.id.navigationHome);
+        listViewHome = findViewById(R.id.listViewHome);
+        drawerLayoutHome = findViewById(R.id.drawerHome);
+        mangLoaiSP = new ArrayList<>();
+        mangLoaiSP.add(0 , new Loaisp(0,"Trang chính","https://cdn4.iconfinder.com/data/icons/basic-ui-2-line/32/house-home-main-menu-start-building-256.png"));
+        loaispAdapter = new LoaispAdapter(mangLoaiSP, getApplicationContext());
+        listViewHome.setAdapter(loaispAdapter);
+        mangsanpham = new ArrayList<>();
+        sanPhamAdapter = new SanPhamAdapter(getApplicationContext(),mangsanpham);
+        recyclerViewHome.setHasFixedSize(true);
+        recyclerViewHome.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        recyclerViewHome.setAdapter(sanPhamAdapter);
+        if(mangGioHang != null){
+
+        } else {
+            mangGioHang = new ArrayList<>();
+        }
+    }
     private void CatchOnItemListView() {
         listViewHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -229,24 +273,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    private void AnhXa() {
-        //txtloi = findViewById(R.id.txtLoi);
-        toolbarHome = findViewById(R.id.toolbarHome);
-        viewFlipperHome = findViewById(R.id.viewFlipperHome);
-        recyclerViewHome = (RecyclerView) findViewById(R.id.recyclerviewHome);
-        navigationViewHome = findViewById(R.id.navigationHome);
-        listViewHome = findViewById(R.id.listViewHome);
-        drawerLayoutHome = findViewById(R.id.drawerHome);
-        mangLoaiSP = new ArrayList<>();
-        mangLoaiSP.add(0 , new Loaisp(0,"Trang chính","https://cdn4.iconfinder.com/data/icons/basic-ui-2-line/32/house-home-main-menu-start-building-256.png"));
-        loaispAdapter = new LoaispAdapter(mangLoaiSP, getApplicationContext());
-        listViewHome.setAdapter(loaispAdapter);
-        mangsanpham = new ArrayList<>();
-        sanPhamAdapter = new SanPhamAdapter(getApplicationContext(),mangsanpham);
-        recyclerViewHome.setHasFixedSize(true);
-        recyclerViewHome.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        recyclerViewHome.setAdapter(sanPhamAdapter);
-    }
+
     private void ActionBar() {
         setSupportActionBar(toolbarHome);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
