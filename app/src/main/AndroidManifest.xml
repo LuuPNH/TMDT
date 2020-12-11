@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DoAnTMDT"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.GioHangActivity"></activity>
+        <activity android:name=".activity.ThongTinKHActivity"></activity>
+        <activity android:name=".activity.GioHangActivity" />
         <activity android:name=".activity.ChiTietSPActitivity" />
         <activity android:name=".activity.XiaomiActivity" />
         <activity android:name=".activity.LienHeActivity" />
